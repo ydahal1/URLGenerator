@@ -196,9 +196,9 @@ const populateMarketingSource = (marketing_medium, marketing_source) => {
 
 //Format - {{URL}}/?extcmp={{source}}{{campaign ID}}{{Channel}}_{{Content}}
 // Generating URL once user hits generate Button
-$(document).ready(function() {
+$(document).ready(() => {
   // Listen to submit event on the <form> itself!
-  $("#urlGeneratorForm").submit(function(e) {
+  $("#urlGeneratorForm").submit(e => {
     // Prevent form submission which refreshes page
     e.preventDefault();
     console.log("submitting form");
