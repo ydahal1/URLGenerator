@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+   <header>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- Loading Bootstrap -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+      <!-- Loading jQuery via CDN -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <!-- Loading local CSS file -->
+      <link rel="stylesheet" href="assets/css/style.css">
+   </header>
+   <body>
+      <div class="col-md-5" id="formInputArea">
+         <form id="urlGeneratorForm">
+            <div class="form-group col-md-12 ">
+               <label for="landing_url"><span id="required">*</span>
+               URL :
+               </label>
+               <input
+                  class="form-control form-control-sm             
+                  type="text"
+                  name="landing_url"
+                  id="landing_url"
+                  value="https://www.cytivalifesciences.com/solutions/protein-research/"
+                  disabled
+                  />
+            </div>
+            <div class="form-group col-md-12">
+               <label for="campaign_id"><span id="required">*</span>
+               DFDC Campaign code:
+               </label>
+               <input class="form-control form-control-sm" type="text" name="campign_id" id="campaign_id"  />
+               <div id="invalid-input">Campign code is required</div>
+            </div>
+            <div class="row col-md-12">
+               <div class="form-group col-md-6">
+                  <label>
+                  Channel
+                  </label>
+                  <select
+                     class="form-control form-control-sm" 
+                     id="marketing_medium"
+                     name="marketing_medium"
+                     onchange="populateMarketingSource( this.id, 'marketing_source')"
+                     >
+                  </select>
+               </div>
+               <div class="form-group col-md-6">
+                  <label>
+                  Source
+                  </label>
+                  <select class="form-control form-control-sm"  id="marketing_source">
+                     <option value=""></option>
+                  </select>
+               </div>
+            </div>
+            <div class="form-group col-md-12">
+               <label>Description</label>
+               <input class="form-control form-control-sm"  type="text" id="description" name="description" />
+            </div>
+            <div class="row col-md-12">
+               <div class="col-lg-12">
+                  <input class="btn btn-primary btn-sm " id="submitButton" type="submit" value="Generate URL"></button>
+               </div>
+            </div>
+         </form>
+      </div>
+     
+      <div id="trackingURLarea" class="row col-md-5">
+        <div id="copySucessAlert" class="alert alert-success  col-md-12" role="alert">
+           Tracking URL copied to the clipboard
+        </div>
+        <div  id="copyFailedAlert" class="alert alert-danger col-md-12" role="alert" >
+            You need to Generate URL first
+        </div>
+         <div class="col-md-10">
+            <textarea value="donkey" class="form-control form-control-sm"  type="text-area"  id="trackingURL" name="trackingURL" rows="3"></textarea>
+         </div>
+       
+         <div class="row col-md-2 text-right">
+            <div>
+               <button class="btn btn-primary btn-sm " id="copy_url" onClick="copyToClipBoard()">Copy URL</button>
+            </div>
+            <div>
+               <button class="btn btn-secondary btn-sm  " id="resetForm" type="button" value="reset" onclick="resetInput()"> Reset
+               </button>
+            </div>
+         </div>
+         
+      </div>
+      <!-- Loading local js file -->
+      <script src="assets/js/script.js"></script>
+      <footer>
+      </footer>
+   </body>
+</html>

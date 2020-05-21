@@ -1,0 +1,32 @@
+#formInputArea {
+  border: 1px solid lightgrey;
+  padding: 20px;
+  margin: 20px;
+}
+
+#trackingURLarea {
+  margin: 20px;
+}
+
+button,
+.btn {
+  width: 120px;
+  margin-top: 5px;
+  background-color: #00886f !important;
+}
+
+#invalid-input {
+  color: red;
+  display: none;
+}
+
+#copyFailedAlert {
+  display: none;
+}
+
+#copySucessAlert {
+  display: none;
+}
+#required {
+  color: red;
+}
