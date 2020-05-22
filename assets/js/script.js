@@ -204,12 +204,11 @@ $(document).ready(() => {
     console.log("submitting form");
 
     let trackingURL = "";
-    let URL = $("#landing_url").val() + "?";
+    let URL = $("#landing_url").val() + "?extcmp=";
     trackingURL += URL;
 
     let marketing_source = $("#marketing_source").val();
-    marketing_source =
-      marketing_source.length > 0 ? `extcmp=${marketing_source}` : "";
+    marketing_source = marketing_source.length > 0 ? `${marketing_source}` : "";
     trackingURL += marketing_source;
     let campaign_id = $("#campaign_id").val();
     if (campaign_id.length < 1) {
