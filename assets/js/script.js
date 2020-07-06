@@ -18,7 +18,7 @@ const instructions = {
 };
 
 // Show and hide SOP
-https: https: showSOP = () => {
+showSOP = () => {
   $("#instructions_body ").show();
   $("#showInstructions").hide();
   $("#hideInstructions_btn").show();
