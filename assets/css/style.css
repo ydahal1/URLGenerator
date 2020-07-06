@@ -1,3 +1,47 @@
+body {
+  font-size: 14px;
+  padding: 50px;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+h1 {
+  font-size: 20px;
+  margin-left: 15px;
+  font-weight: bold;
+}
+
+#showInstructions_btn {
+  color: blue;
+}
+
+#hideInstructions_btn {
+  color: blue;
+  display: none;
+}
+
+/* Instruction Body */
+#instructions_body {
+  display: none;
+}
+/* Dart arrow before List */
+ul li:before {
+  content: "\27A2";
+}
+
+.campaignURL:before {
+  display: none;
+}
+
+.campaignURL {
+  margin-left: 20px;
+}
+
+/* Hiding dots from list items */
+ul {
+  list-style-type: none;
+}
+
+/* Form input area styling */
 #formInputArea {
   border: 1px solid lightgrey;
   padding: 20px;
@@ -8,6 +52,12 @@
   margin: 20px;
 }
 
+/* Button styling */
+
+.copyAndRestBtns {
+  margin: 3px;
+}
+
 button,
 .btn {
   width: 120px;
@@ -15,11 +65,14 @@ button,
   background-color: #00886f !important;
 }
 
+/* User input error styling */
 #invalid-input {
   color: red;
   display: none;
+  font-size: 12px;
 }
 
+/* Alerts styling */
 #copyFailedAlert {
   display: none;
 }
@@ -29,4 +82,51 @@ button,
 }
 #required {
   color: red;
+}
+
+/* invalid chars input in input fields */
+#campaignCode_invalidCharacters {
+  color: red;
+  font-size: 12px;
+  display: none;
+}
+#description_invalidCharacters {
+  color: red;
+  font-size: 12px;
+  display: none;
+}
+
+/* Campaign code display, hide campaign code learn more btns and details*/
+#display_learnMore_campaignCodeChars {
+  font-size: 12px;
+  color: blue;
+}
+
+#hide_learnMore_campaignCodeChars {
+  font-size: 12px;
+  color: blue;
+  display: none;
+}
+
+#learnMore_campaignCodeChars {
+  font-size: 12px;
+  display: none;
+  color: gray;
+}
+
+/* ***************  Learn more and hide btns for wrong campaign description *****************/
+#display_learnMore_descriptionChars {
+  font-size: 12px;
+  color: blue;
+}
+
+#hide_learnMore_descriptionChars {
+  font-size: 12px;
+  color: blue;
+  display: none;
+}
+#learnMore_descriptionChars {
+  font-size: 12px;
+  display: none;
+  color: gray;
 }

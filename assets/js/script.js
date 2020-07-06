@@ -1,3 +1,49 @@
+//Instructions
+const instructions = {
+  msg:
+    "The tracking URL will enable you to track traffic from your tactic to your target web page. <span id='showInstructions'><span id='showInstructions_btn' onClick='showSOP()'>Click here </span> to view a brief SOP on how to use this.</span><span id='hideInstructions_btn' onClick='hideSOP()'>Hide SOP </span>",
+  instructions_list: [
+    "<li><b>URL</b> (required): Enter the target URL where you want to send users for your campaign tactic. <b>For global campaigns,</b> remove country and language designation. <ul><li> Example:</li><li class='campaignURL'> Original URL: <a href= 'https://www.cytivalifesciences.com/en/us/solutions/protein-research'>https://www.cytivalifesciences.com/en/us/solutions/protein-research </a><li class='campaignURL'>Instead use: <a href='https://www.cytivalifesciences.com/solutions/protein-research'> https://www.cytivalifesciences.com/solutions/protein-research </a></li></li></ul></li>",
+    "<li> <b>SFDC campaign number </b> (required):  Enter the SFDC campaign number without any spaces.</li>",
+    "<li><b>Marketing tactic</b>: Select your marketing tactic from the drop-down list.</li>",
+    "<li><b>Source:</b> Select the source — where your tracking URL will be located — from the drop-down list.</li>",
+    "<li><b>Description</b> (optional): Add a descriptor to differentiate your specific tactic. Type with no spaces. This will be embedded in the URL. Examples Different banner sizes or colors: 125x125, 240x400, 125x125blue  Versions for A/B testing: headerA, headerB</li>",
+    "<li>Click on the “Generate URL” button to generate the tracking URL, which will appear in the box below the button.</li>",
+    "<li>Test the URL to be sure it opens the target URL as intended.</li>",
+    "<li>Copy the tracking URL to clipboard by clicking the “Copy URL” button. </li>",
+    "<li>Paste the tracking URL into the appropriate field in your Kapost project.</li>",
+    "<li>For QR code generation, take the tracking URL to <a href= 'https://www.qrcode-monkey.com/' target='_blank'> https://www.qrcode-monkey.com/ </a> and follow the steps to create a trackable QR code for use with printed materials.",
+    "<li>Please reach out to the digital marketing data team with any questions.</li>"
+  ]
+};
+
+// Show and hide SOP
+https: https: showSOP = () => {
+  $("#instructions_body ").show();
+  $("#showInstructions").hide();
+  $("#hideInstructions_btn").show();
+};
+
+hideSOP = () => {
+  $("#instructions_body ").hide();
+  $("#showInstructions").show();
+  $("#hideInstructions_btn").hide();
+};
+
+// ------ Displaying instructions ----
+// Instructions head
+let instructionsHead = instructions.msg;
+document.getElementById("instructions_head").innerHTML = instructionsHead;
+
+// Instructions body
+let instructionsBody = "";
+
+for (i = 0; i < instructions.instructions_list.length; i++) {
+  instructionsBody += instructions.instructions_list[i];
+  document.getElementById("instructions_body").innerHTML = instructionsBody;
+}
+
+// ------- URL generator form data ------
 // Marketing  medium and sources
 const marketing_tools = [
   {
@@ -112,7 +158,7 @@ const marketing_tools = [
     tool_id: 12,
     medium: "Events",
     stored_value: "EVNT",
-    sources: ["|", "|Events/Tradeshows/Conference"]
+    sources: ["|", "ETC|Events/Tradeshows/Conference"]
   },
   {
     tool_id: 13,
@@ -207,28 +253,67 @@ $(document).ready(() => {
     let URL = $("#landing_url").val() + "?extcmp=";
     trackingURL += URL;
 
-    let marketing_source = $("#marketing_source").val();
-    marketing_source = marketing_source.length > 0 ? `${marketing_source}` : "";
-    trackingURL += marketing_source;
-    let campaign_id = $("#campaign_id").val();
+    //Campaign code / id
+    let campaign_id = $("#campaign_id")
+      .val()
+      .trim();
     if (campaign_id.length < 1) {
       document.getElementById("invalid-input").style.display = "inline";
+      document.getElementById("campaignCode_invalidCharacters").style.display =
+        "none";
       return;
     } else {
       document.getElementById("invalid-input").style.display = "none";
+      if (/[^a-zA-Z0-9\-\.\_\~]/.test(campaign_id)) {
+        document.getElementById(
+          "campaignCode_invalidCharacters"
+        ).style.display = "inline";
+        return false;
+      } else {
+        document.getElementById(
+          "campaignCode_invalidCharacters"
+        ).style.display = "none";
+        document.getElementById("learnMore_campaignCodeChars").style.display =
+          "none";
+        trackingURL += campaign_id;
+      }
     }
-    trackingURL += campaign_id;
-    let marketing_medium = $("#marketing_medium").val();
-    marketing_medium = marketing_medium.length > 0 ? `${marketing_medium}` : "";
-    trackingURL += marketing_medium;
 
-    let description = $("#description").val();
-    description = description.length > 0 ? `_${description}` : "";
-    trackingURL += description;
+    // Marketing channel
+    let marketing_medium = $("#marketing_medium")
+      .val()
+      .trim();
+    marketing_medium =
+      marketing_medium.length > 0 ? `-${marketing_medium}` : "";
+    trackingURL += `${marketing_medium}`;
 
-    console.log(trackingURL);
+    //Marketing source
+    let marketing_source = $("#marketing_source").val();
+    marketing_source =
+      marketing_source.length > 0 ? `-${marketing_source}` : "";
+    trackingURL += `${marketing_source}`;
 
-    // $("#trackingURL").html(trackingURL);
+    //Description
+    let description = $("#description")
+      .val()
+      .trim();
+
+    if (description.length > 0) {
+      if (/[^a-zA-Z0-9\-\.\_\~]/.test(description)) {
+        document.getElementById("description_invalidCharacters").style.display =
+          "inline";
+        return false;
+      } else {
+        document.getElementById("description_invalidCharacters").style.display =
+          "none";
+        document.getElementById("learnMore_descriptionChars").style.display =
+          "none";
+        trackingURL += `-${description}`;
+      }
+    } else {
+      document.getElementById("description_invalidCharacters").style.display =
+        "none";
+    }
     document.getElementById("trackingURL").innerHTML = trackingURL;
   });
 });
@@ -270,7 +355,41 @@ const resetInput = () => {
     return this.defaultValue;
   });
   document.getElementById("trackingURL").innerHTML = "";
-  document.getElementById("copyFailedAlert").style.display = "none";
-  document.getElementById("copySucessAlert").style.display = "none";
-  document.getElementById("invalid-input").style.display = "none";
+  $("#copyFailedAlert").hide();
+  $("#copySucessAlert").hide();
+  $("#invalid-input").hide();
+  $("#campaignCode_invalidCharacters").hide();
+  $("#learnMore_campaignCodeChars").hide();
+  $("#description_invalidCharacters").hide();
+  $("#learnMore_descriptionChars").hide();
+  $("#hide_learnMore_campaignCodeChars").hide();
+  $("#hide_learnMore_descriptionChars").hide();
+  $("#display_learnMore_campaignCodeChars").show();
+  $("#display_learnMore_descriptionChars").show();
+};
+
+// Display and hide errs for invalid characters input in campaign code input box
+showCampaignCodeInvalidCharsDetails = () => {
+  $("#display_learnMore_campaignCodeChars").hide();
+  $("#hide_learnMore_campaignCodeChars").show();
+  $("#learnMore_campaignCodeChars").show();
+};
+
+hideCampaignCodeInvalidCharsDetails = () => {
+  $("#hide_learnMore_campaignCodeChars").hide();
+  $("#display_learnMore_campaignCodeChars").show();
+  $("#learnMore_campaignCodeChars").hide();
+};
+
+// Display and hide errs for invalid characters input in campaign code description box
+showInvalidCharsDes = () => {
+  $("#display_learnMore_descriptionChars").hide();
+  $("#hide_learnMore_descriptionChars").show();
+  $("#learnMore_descriptionChars").show();
+};
+
+hideInvalidCharsDes = () => {
+  $("#hide_learnMore_descriptionChars").hide();
+  $("#display_learnMore_descriptionChars").show();
+  $("#learnMore_descriptionChars").hide();
 };
