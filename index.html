@@ -17,10 +17,7 @@
    </header>
    <body>
       <h1>Tracking URL Generator</h1>
-      <div id="instructions" class="instructions col-md-8">
-         <div id="instructions_head"></div>
-         <ol id="instructions_body"></ol>
-      </div>
+     
    
 
       </div>
@@ -31,13 +28,22 @@
                URL :
                </label>
                <input
-                  class="form-control form-control-sm             
+                  class="form-control form-control-sm"             
                   type="text"
                   name="landing_url"
-                  id="landing_url"
-                  value="https://www.cytivalifesciences.com/solutions/protein-research/"
-                  
+                  id="landing_url"  
                   />
+               <div id="urlHint"> Enter website or Marketing landing page URL here</div>
+               <div id="empty_urlErr">URL is required</div>
+               <div id="url_invalidCharacters">Invalid character or space entered
+                  <span id="display_learnMore_urlCodeChars" onclick="showUrlInvalidCharsDetails()">Learn More</span>
+                  <span id="hide_learnMore_urlCodeChars" onclick="hideUrlInvalidCharsDetails()">Hide details</span>
+               </div>
+               <div id="learnMore_urlCodeChars">A URL is composed from a limited set of characters and no spaces. 
+                  These characters include digits (0-9), letters(A-Z, a-z), and a few special characters ('-',  '.', '_', '~').
+               </div>
+
+
             </div>
             <div class="form-group col-md-12">
                <label for="campaign_id"><span id="required">*</span>
@@ -50,7 +56,7 @@
                   <span id="hide_learnMore_campaignCodeChars" onclick="hideCampaignCodeInvalidCharsDetails()">Hide details</span>
                </div>
                <div id="learnMore_campaignCodeChars">A URL is composed from a limited set of characters and no spaces. 
-                  These characters include digits (0-9), letters(A-Z, a-z), and a few special characters ("-", ".", "_", "~").
+                  These characters include digits (0-9), letters(A-Z, a-z), and a few special characters ('-'', '.', '_','~').
                </div>
 
             </div>
@@ -85,7 +91,7 @@
 
                </div>
                <div id="learnMore_descriptionChars">A URL is composed from a limited set of characters and no spaces. 
-                  These characters include digits (0-9), letters(A-Z, a-z), and a few special characters ("-", ".", "_", "~").
+                  These characters include digits (0-9), letters(A-Z, a-z), and a few special characters ('-'', '.', '_','~').
                </div>
 
             </div>
@@ -118,6 +124,10 @@
             </div>
          </div>
          
+      </div>
+       <div id="instructions" class="instructions col-md-8">
+         <div id="instructions_head"></div>
+         <ol id="instructions_body"></ol>
       </div>
       <!-- Loading local js file -->
       <script src="assets/js/script.js"></script>

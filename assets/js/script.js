@@ -1,7 +1,8 @@
 //Instructions
 const instructions = {
   msg:
-    "The tracking URL will enable you to track traffic from your tactic to your target web page. <span id='showInstructions'><span id='showInstructions_btn' onClick='showSOP()'>Click here </span> to view a brief SOP on how to use this.</span><span id='hideInstructions_btn' onClick='hideSOP()'>Hide SOP </span>",
+    // "The tracking URL will enable you to track traffic from your tactic to your target web page. <span id='showInstructions'><span id='showInstructions_btn' onClick='showSOP()'>Click here </span> to view a brief SOP on how to use this.</span><span id='hideInstructions_btn' onClick='hideSOP()'>Hide SOP </span>",
+    "The tracking URL will enable you to track traffic from your tactic to your target web page. Here’s a brief SOP on how to use this.",
   instructions_list: [
     "<li><b>URL</b> (required): Enter the target URL where you want to send users for your campaign tactic. <b>For global campaigns,</b> remove country and language designation. <ul><li> Example:</li><li class='campaignURL'> Original URL: <a href= 'https://www.cytivalifesciences.com/en/us/solutions/protein-research'>https://www.cytivalifesciences.com/en/us/solutions/protein-research </a><li class='campaignURL'>Instead use: <a href='https://www.cytivalifesciences.com/solutions/protein-research'> https://www.cytivalifesciences.com/solutions/protein-research </a></li></li></ul></li>",
     "<li> <b>SFDC campaign number </b> (required):  Enter the SFDC campaign number without any spaces.</li>",
@@ -18,17 +19,17 @@ const instructions = {
 };
 
 // Show and hide SOP
-showSOP = () => {
-  $("#instructions_body ").show();
-  $("#showInstructions").hide();
-  $("#hideInstructions_btn").show();
-};
+// showSOP = () => {
+//   $("#instructions_body ").show();
+//   $("#showInstructions").hide();
+//   $("#hideInstructions_btn").show();
+// };
 
-hideSOP = () => {
-  $("#instructions_body ").hide();
-  $("#showInstructions").show();
-  $("#hideInstructions_btn").hide();
-};
+// hideSOP = () => {
+//   $("#instructions_body ").hide();
+//   $("#showInstructions").show();
+//   $("#hideInstructions_btn").hide();
+// };
 
 // ------ Displaying instructions ----
 // Instructions head
@@ -250,8 +251,25 @@ $(document).ready(() => {
     console.log("submitting form");
 
     let trackingURL = "";
-    let URL = $("#landing_url").val() + "?extcmp=";
-    trackingURL += URL;
+    let URL = $("#landing_url")
+      .val()
+      .trim();
+    if (URL.length < 1) {
+      $("#empty_urlErr").show();
+      $("#url_invalidCharacters").hide();
+    } else {
+      $("#empty_urlErr").hide();
+      if (/[^a-zA-Z0-9\-\.\_\~\:\/]/.test(URL)) {
+        $("#url_invalidCharacters").show();
+        return false;
+      } else {
+        $("#url_invalidCharacters").hide();
+        trackingURL += `${URL}?extcmp=`;
+      }
+    }
+
+    // let URL = $("#landing_url").val() + "?extcmp=";
+    // trackingURL += URL;
 
     //Campaign code / id
     let campaign_id = $("#campaign_id")
@@ -264,7 +282,7 @@ $(document).ready(() => {
       return;
     } else {
       document.getElementById("invalid-input").style.display = "none";
-      if (/[^a-zA-Z0-9\-\.\_\~]/.test(campaign_id)) {
+      if (/[^a-zA-Z0-9\-\.\_\~\:\/]/.test(campaign_id)) {
         document.getElementById(
           "campaignCode_invalidCharacters"
         ).style.display = "inline";
@@ -299,7 +317,7 @@ $(document).ready(() => {
       .trim();
 
     if (description.length > 0) {
-      if (/[^a-zA-Z0-9\-\.\_\~]/.test(description)) {
+      if (/[^a-zA-Z0-9\-\.\_\~\:]/.test(description)) {
         document.getElementById("description_invalidCharacters").style.display =
           "inline";
         return false;
@@ -342,6 +360,9 @@ const copyToClipBoard = () => {
 
 //Reset form
 const resetInput = () => {
+  $("#landing_url").val(() => {
+    return this.defaultValue;
+  });
   $("#campaign_id").val(() => {
     return this.defaultValue;
   });
@@ -366,6 +387,20 @@ const resetInput = () => {
   $("#hide_learnMore_descriptionChars").hide();
   $("#display_learnMore_campaignCodeChars").show();
   $("#display_learnMore_descriptionChars").show();
+  $("#url_invalidCharacters").hide();
+};
+
+// Display and hide errs for invalid characters input in campaign code input box
+showUrlInvalidCharsDetails = () => {
+  $("#display_learnMore_urlCodeChars").hide();
+  $("#hide_learnMore_urlCodeChars").show();
+  $("#learnMore_urlCodeChars").show();
+};
+
+hideUrlInvalidCharsDetails = () => {
+  $("#hide_learnMore_urlCodeChars").hide();
+  $("#display_learnMore_urlCodeChars").show();
+  $("#learnMore_urlCodeChars").hide();
 };
 
 // Display and hide errs for invalid characters input in campaign code input box

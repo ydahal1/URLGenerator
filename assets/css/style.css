@@ -21,7 +21,7 @@ h1 {
 
 /* Instruction Body */
 #instructions_body {
-  display: none;
+  /* display: none; */
 }
 /* Dart arrow before List */
 ul li:before {
@@ -34,6 +34,11 @@ ul li:before {
 
 .campaignURL {
   margin-left: 20px;
+}
+
+#urlHint {
+  color: gray;
+  font-size: 12px;
 }
 
 /* Hiding dots from list items */
@@ -66,6 +71,36 @@ button,
 }
 
 /* User input error styling */
+/* url */
+#empty_urlErr {
+  color: red;
+  display: none;
+  font-size: 12px;
+}
+
+#url_invalidCharacters {
+  color: red;
+  font-size: 12px;
+  display: none;
+}
+
+#display_learnMore_urlCodeChars {
+  font-size: 12px;
+  color: blue;
+}
+
+#hide_learnMore_urlCodeChars {
+  font-size: 12px;
+  color: blue;
+  display: none;
+}
+
+#learnMore_urlCodeChars {
+  font-size: 12px;
+  display: none;
+  color: gray;
+}
+
 #invalid-input {
   color: red;
   display: none;
