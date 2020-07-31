@@ -35,12 +35,12 @@
                   />
                <div id="urlHint"> Enter website or Marketing landing page URL here</div>
                <div id="empty_urlErr">URL is required</div>
-               <div id="url_invalidCharacters">Invalid character or space entered
-                  <span id="display_learnMore_urlCodeChars" onclick="showUrlInvalidCharsDetails()">Learn More</span>
-                  <span id="hide_learnMore_urlCodeChars" onclick="hideUrlInvalidCharsDetails()">Hide details</span>
+               <div id="url_invalidCharacters">Invalid character, missing top level domain, wrong fromat or space present
+                  <span id="display_learnMore_urlCodeChars" onclick="showUrlInvalidCharsDetails()"> ... </span>
+                  <span id="hide_learnMore_urlCodeChars" onclick="hideUrlInvalidCharsDetails()"> ... </span>
                </div>
-               <div id="learnMore_urlCodeChars">A URL is composed from a limited set of characters and no spaces. 
-                  These characters include digits (0-9), letters(A-Z, a-z), and a few special characters ('-',  '.', '_', '~').
+               <div id="learnMore_urlCodeChars">URL should contain only limited set of characters and no spaces. 
+                  These characters include digits (0-9), letters(A-Z, a-z), and a few special characters.URL should start with alphabet.  Also make sure your URL has top level domain(.com)
                </div>
 
 
@@ -51,12 +51,12 @@
                </label>
                <input class="form-control form-control-sm" type="text" name="campign_id" id="campaign_id"  />
                <div id="invalid-input">campaign  code is required</div>
-               <div id="campaignCode_invalidCharacters">Invalid character or space entered
-                  <span id="display_learnMore_campaignCodeChars" onclick="showCampaignCodeInvalidCharsDetails()">Learn More</span>
-                  <span id="hide_learnMore_campaignCodeChars" onclick="hideCampaignCodeInvalidCharsDetails()">Hide details</span>
+               <div id="campaignCode_invalidCharacters">Invalid campaign code
+                  <span id="display_learnMore_campaignCodeChars" onclick="showCampaignCodeInvalidCharsDetails()">... </span>
+                  <span id="hide_learnMore_campaignCodeChars" onclick="hideCampaignCodeInvalidCharsDetails()">...</span>
                </div>
-               <div id="learnMore_campaignCodeChars">A URL is composed from a limited set of characters and no spaces. 
-                  These characters include digits (0-9), letters(A-Z, a-z), and a few special characters ('-'', '.', '_','~').
+               <div id="learnMore_campaignCodeChars">Space and special characters are not allowed
+
                </div>
 
             </div>
@@ -85,13 +85,12 @@
             <div class="form-group col-md-12">
                <label>Description</label>
                <input class="form-control form-control-sm"  type="text" id="description" name="description" />
-               <div id="description_invalidCharacters">Invalid character or space entered 
-                  <span id="display_learnMore_descriptionChars" onclick="showInvalidCharsDes()">Learn More</span>
-                  <span id="hide_learnMore_descriptionChars" onclick="hideInvalidCharsDes()">Hide details</span>
+               <div id="description_invalidCharacters">Invalid Description 
+                  <span id="display_learnMore_descriptionChars" onclick="showInvalidCharsDes()"> ....</span>
+                  <span id="hide_learnMore_descriptionChars" onclick="hideInvalidCharsDes()"> ... </span>
 
                </div>
-               <div id="learnMore_descriptionChars">A URL is composed from a limited set of characters and no spaces. 
-                  These characters include digits (0-9), letters(A-Z, a-z), and a few special characters ('-'', '.', '_','~').
+               <div id="learnMore_descriptionChars">Space and special characters are not allowed
                </div>
 
             </div>

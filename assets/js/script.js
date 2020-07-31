@@ -5,9 +5,9 @@ const instructions = {
     "The tracking URL will enable you to track traffic from your tactic to your target web page. Here’s a brief SOP on how to use this.",
   instructions_list: [
     "<li><b>URL</b> (required): Enter the target URL where you want to send users for your campaign tactic. <b>For global campaigns,</b> remove country and language designation. <ul><li> Example:</li><li class='campaignURL'> Original URL: <a href= 'https://www.cytivalifesciences.com/en/us/solutions/protein-research'>https://www.cytivalifesciences.com/en/us/solutions/protein-research </a><li class='campaignURL'>Instead use: <a href='https://www.cytivalifesciences.com/solutions/protein-research'> https://www.cytivalifesciences.com/solutions/protein-research </a></li></li></ul></li>",
-    "<li> <b>SFDC campaign number </b> (required):  Enter the SFDC campaign number without any spaces.</li>",
-    "<li><b>Marketing tactic</b>: Select your marketing tactic from the drop-down list.</li>",
-    "<li><b>Source:</b> Select the source — where your tracking URL will be located — from the drop-down list.</li>",
+    "<li> <b>Campaign code </b> (required):  Enter the SFDC campaign number without any spaces. <a href='https://app.smartsheet.com/b/home?dlp=%2Fsheets%2FJC6JpRchGxpQPmCJ9g3W6jpvX3X7X657XPp7wRP1&dlq=view%3Dgrid'>You can find/generate campaign code here</a></li>",
+    "<li><b>Channel</b>: Select your marketing tactic from the drop-down list.</li>",
+    "<li><b>Marketing Category:</b> Select the source — where your tracking URL will be located — from the drop-down list.</li>",
     "<li><b>Description</b> (optional): Add a descriptor to differentiate your specific tactic. Type with no spaces. This will be embedded in the URL. Examples Different banner sizes or colors: 125x125, 240x400, 125x125blue  Versions for A/B testing: headerA, headerB</li>",
     "<li>Click on the “Generate URL” button to generate the tracking URL, which will appear in the box below the button.</li>",
     "<li>Test the URL to be sure it opens the target URL as intended.</li>",
@@ -51,25 +51,25 @@ const marketing_tools = [
     tool_id: 00,
     medium: "",
     stored_value: "",
-    sources: []
+    sources: ["|"]
   },
   {
     tool_id: 01,
     medium: "E-mail",
-    stored_value: "EM",
+    stored_value: "em",
     sources: [
       "|",
-      "INT|Internal E-mail",
-      "EXV|External email vendor",
-      "MSI|MSI email",
-      "INCM|Internal Communication"
+      "int|Internal E-mail",
+      "exv|External email vendor",
+      "msi|MSI email",
+      "incm|Internal Communication"
     ]
   },
   {
     tool_id: 02,
     medium: "Direct Mail",
-    stored_value: "DM",
-    sources: ["|", "EX|Direct Mail External", "VN|Direct Mail Vendor"]
+    stored_value: "dm",
+    sources: ["|", "ex|Direct Mail External", "vn|Direct Mail Vendor"]
   },
   {
     tool_id: 03,
@@ -253,28 +253,38 @@ $(document).ready(() => {
     let trackingURL = "";
     let URL = $("#landing_url")
       .val()
-      .trim();
+      .trim()
+      .toLowerCase();
+
     if (URL.length < 1) {
       $("#empty_urlErr").show();
       $("#url_invalidCharacters").hide();
     } else {
       $("#empty_urlErr").hide();
-      if (/[^a-zA-Z0-9\-\.\_\~\:\/]/.test(URL)) {
+      if (/[^a-zA-Z0-9\-\.\_\~\:\(.com)\=\?\&\/]/.test(URL)) {
+        $("#url_invalidCharacters").show();
+        return false;
+      } else if (URL.indexOf(".com") < 1) {
+        $("#url_invalidCharacters").show();
+        return false;
+      } else if (/[^a-zA-Z0-9]/.test(URL[0])) {
         $("#url_invalidCharacters").show();
         return false;
       } else {
         $("#url_invalidCharacters").hide();
+        $("#learnMore_urlCodeChars").hide();
         trackingURL += `${URL}?extcmp=`;
       }
     }
-
-    // let URL = $("#landing_url").val() + "?extcmp=";
-    // trackingURL += URL;
 
     //Campaign code / id
     let campaign_id = $("#campaign_id")
       .val()
       .trim();
+    if (campaign_id.slice(-1) === "-") {
+      campaign_id = campaign_id.slice(0, -1);
+    }
+
     if (campaign_id.length < 1) {
       document.getElementById("invalid-input").style.display = "inline";
       document.getElementById("campaignCode_invalidCharacters").style.display =
@@ -282,7 +292,7 @@ $(document).ready(() => {
       return;
     } else {
       document.getElementById("invalid-input").style.display = "none";
-      if (/[^a-zA-Z0-9\-\.\_\~\:\/]/.test(campaign_id)) {
+      if (/[^a-zA-Z0-9\-\.\_\?\&\/\~\:\/]/.test(campaign_id)) {
         document.getElementById(
           "campaignCode_invalidCharacters"
         ).style.display = "inline";
@@ -301,12 +311,14 @@ $(document).ready(() => {
     let marketing_medium = $("#marketing_medium")
       .val()
       .trim();
+
     marketing_medium =
       marketing_medium.length > 0 ? `-${marketing_medium}` : "";
     trackingURL += `${marketing_medium}`;
 
     //Marketing source
     let marketing_source = $("#marketing_source").val();
+
     marketing_source =
       marketing_source.length > 0 ? `-${marketing_source}` : "";
     trackingURL += `${marketing_source}`;
@@ -317,7 +329,7 @@ $(document).ready(() => {
       .trim();
 
     if (description.length > 0) {
-      if (/[^a-zA-Z0-9\-\.\_\~\:]/.test(description)) {
+      if (/[^a-zA-Z0-9\-\.\_\~\?\&\/\:]/.test(description)) {
         document.getElementById("description_invalidCharacters").style.display =
           "inline";
         return false;
@@ -332,6 +344,7 @@ $(document).ready(() => {
       document.getElementById("description_invalidCharacters").style.display =
         "none";
     }
+    trackingURL = trackingURL.toLowerCase();
     document.getElementById("trackingURL").innerHTML = trackingURL;
   });
 });
