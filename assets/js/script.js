@@ -1,7 +1,6 @@
-//Instructions
+// ############  Instructions - SOP on how to use the tool  #############
 const instructions = {
   msg:
-    // "The tracking URL will enable you to track traffic from your tactic to your target web page. <span id='showInstructions'><span id='showInstructions_btn' onClick='showSOP()'>Click here </span> to view a brief SOP on how to use this.</span><span id='hideInstructions_btn' onClick='hideSOP()'>Hide SOP </span>",
     "The tracking URL will enable you to track traffic from your tactic to your target web page. Here’s a brief SOP on how to use this.",
   instructions_list: [
     "<li><b>URL</b> (required): Enter the target URL where you want to send users for your campaign tactic. <b>For global campaigns,</b> remove country and language designation. <ul><li> Example:</li><li class='campaignURL'> Original URL: <a href= 'https://www.cytivalifesciences.com/en/us/solutions/protein-research'>https://www.cytivalifesciences.com/en/us/solutions/protein-research </a><li class='campaignURL'>Instead use: <a href='https://www.cytivalifesciences.com/solutions/protein-research'> https://www.cytivalifesciences.com/solutions/protein-research </a></li></li></ul></li>",
@@ -18,20 +17,7 @@ const instructions = {
   ]
 };
 
-// Show and hide SOP
-// showSOP = () => {
-//   $("#instructions_body ").show();
-//   $("#showInstructions").hide();
-//   $("#hideInstructions_btn").show();
-// };
-
-// hideSOP = () => {
-//   $("#instructions_body ").hide();
-//   $("#showInstructions").show();
-//   $("#hideInstructions_btn").hide();
-// };
-
-// ------ Displaying instructions ----
+// ############ Displaying instructions in front end ########################################################
 // Instructions head
 let instructionsHead = instructions.msg;
 document.getElementById("instructions_head").innerHTML = instructionsHead;
@@ -39,13 +25,14 @@ document.getElementById("instructions_head").innerHTML = instructionsHead;
 // Instructions body
 let instructionsBody = "";
 
+//Looping through instructions arrya and printing on the screen
 for (i = 0; i < instructions.instructions_list.length; i++) {
   instructionsBody += instructions.instructions_list[i];
   document.getElementById("instructions_body").innerHTML = instructionsBody;
 }
 
-// ------- URL generator form data ------
-// Marketing  medium and sources
+// ############ URL generator drop down data ###################################################################
+// Marketing  Channel and Marketing category - array of objects
 const marketing_tools = [
   {
     tool_id: 00,
@@ -194,6 +181,7 @@ const marketing_tools = [
   }
 ];
 
+// ############ Populating Marketing channel ##################################################################
 // array to store options for medium
 var medium_options_html = [];
 
@@ -208,7 +196,7 @@ for (i = 0; i < marketing_tools.length; i++) {
   ).innerHTML += `<option value="${value}">${option}</option>`;
 }
 
-//Populate marketing source dropdown options based on marketing medium
+// ############ Populating Marketing Category based on user selection of marketing channel ########################
 const populateMarketingSource = (marketing_medium, marketing_source) => {
   //When marketing medium is changed make sources options empty
   document.getElementById("marketing_source").innerHTML = "";
@@ -216,7 +204,6 @@ const populateMarketingSource = (marketing_medium, marketing_source) => {
 
   // putting new medium option selected by user
   var medium_option = document.getElementById(marketing_medium);
-  console.log(medium_option.value);
 
   //Looping through marketing tools to find option entered by user
   for (i = 0; i < marketing_tools.length; i++) {
@@ -224,9 +211,6 @@ const populateMarketingSource = (marketing_medium, marketing_source) => {
 
     // When the user entered option is found in marketing tools array
     if (currentOption === medium_option.value) {
-      console.log("Match found");
-      console.log(marketing_tools[i].sources);
-
       let optionsArray = marketing_tools[i].sources;
       //Looping through sources array and printing options
       for (var option in optionsArray) {
@@ -241,14 +225,19 @@ const populateMarketingSource = (marketing_medium, marketing_source) => {
   }
 };
 
-//Format - {{URL}}/?extcmp={{source}}{{campaign ID}}{{Channel}}_{{Content}}
-// Generating URL once user hits generate Button
+/* ###### URL FORMAT #########################################################################
+#                                                                                            #
+#       (URL)?extcmp=(camapign code)-(channel)-(source/marketing category)-(description)     #
+#                                                                                            #
+############################################################################################ */
+
+//Function that executes once the user hits generate URL  buton
+// Main function
 $(document).ready(() => {
   // Listen to submit event on the <form> itself!
   $("#urlGeneratorForm").submit(e => {
     // Prevent form submission which refreshes page
     e.preventDefault();
-    console.log("submitting form");
 
     let trackingURL = "";
     let URL = $("#landing_url")
@@ -256,9 +245,12 @@ $(document).ready(() => {
       .trim()
       .toLowerCase();
 
+    //Checking if URL field is empty
     if (URL.length < 1) {
       $("#empty_urlErr").show();
       $("#url_invalidCharacters").hide();
+
+      //If the URL is not empty - validating it is in correct format
     } else {
       $("#empty_urlErr").hide();
       if (/[^a-zA-Z0-9\-\.\_\~\:\(.com)\=\?\&\/]/.test(URL)) {
@@ -270,6 +262,8 @@ $(document).ready(() => {
       } else if (/[^a-zA-Z0-9]/.test(URL[0])) {
         $("#url_invalidCharacters").show();
         return false;
+
+        //If URL validation test passes - Starting appending to tracking url with is empty as of now
       } else {
         $("#url_invalidCharacters").hide();
         $("#learnMore_urlCodeChars").hide();
@@ -277,19 +271,24 @@ $(document).ready(() => {
       }
     }
 
-    //Campaign code / id
+    //Campaign code
     let campaign_id = $("#campaign_id")
       .val()
       .trim();
+
+    //If user enters hypen at the end of campaign code by mistake take it off
     if (campaign_id.slice(-1) === "-") {
       campaign_id = campaign_id.slice(0, -1);
     }
 
+    //If campaign code is empty display error and exit
     if (campaign_id.length < 1) {
       document.getElementById("invalid-input").style.display = "inline";
       document.getElementById("campaignCode_invalidCharacters").style.display =
         "none";
       return;
+
+      //If campaign code is not empty run a validation test
     } else {
       document.getElementById("invalid-input").style.display = "none";
       if (/[^a-zA-Z0-9\-\.\_\?\&\/\~\:\/]/.test(campaign_id)) {
@@ -303,6 +302,7 @@ $(document).ready(() => {
         ).style.display = "none";
         document.getElementById("learnMore_campaignCodeChars").style.display =
           "none";
+        // If campaign code validation pass - append to trackingURL
         trackingURL += campaign_id;
       }
     }
@@ -312,27 +312,35 @@ $(document).ready(() => {
       .val()
       .trim();
 
+    //If user selects marketing channel from dropdown - append to tracking url
     marketing_medium =
       marketing_medium.length > 0 ? `-${marketing_medium}` : "";
     trackingURL += `${marketing_medium}`;
 
-    //Marketing source
-    let marketing_source = $("#marketing_source").val();
+    //Marketing Category
+    let marketing_source = $("#marketing_source")
+      .val()
+      .trim();
 
+    // If user picks marketing source append to tracking url - if not append nothing
     marketing_source =
       marketing_source.length > 0 ? `-${marketing_source}` : "";
     trackingURL += `${marketing_source}`;
 
-    //Description
+    //Getting Marketing Description
     let description = $("#description")
       .val()
       .trim();
 
+    //If user inputs description validate the input
     if (description.length > 0) {
+      //If description does not have valid chars - show err and return
       if (/[^a-zA-Z0-9\-\.\_\~\?\&\/\:]/.test(description)) {
         document.getElementById("description_invalidCharacters").style.display =
           "inline";
         return false;
+
+        //If description passes validation test - append to tracking URL
       } else {
         document.getElementById("description_invalidCharacters").style.display =
           "none";
@@ -340,20 +348,28 @@ $(document).ready(() => {
           "none";
         trackingURL += `-${description}`;
       }
+
+      //If user does not enter description - no validation required ; hide any error messages
     } else {
       document.getElementById("description_invalidCharacters").style.display =
         "none";
     }
+    //Changing tracking url to lower case
     trackingURL = trackingURL.toLowerCase();
+
+    //Displaying tracking URL in front end.
     document.getElementById("trackingURL").innerHTML = trackingURL;
   });
 });
 
-//Copy to clipboard function
+//########################## End of Generate URL function ################################################
+
+// ##################   Copy to clipboard function ########################################################
 const copyToClipBoard = () => {
   var copyText = document.getElementById("trackingURL");
 
   if (
+    //If user tries to copy empty tracking URL
     $("#trackingURL")
       .val()
       .trim().length < 1
@@ -361,17 +377,18 @@ const copyToClipBoard = () => {
     document.getElementById("copySucessAlert").style.display = "none";
     document.getElementById("copyFailedAlert").style.display = "block";
     return;
+
+    // If there is string to copy - hide any failed alert and copy URL
   } else {
-    console.log("Blank field: " + HTMLTextAreaElement);
     document.getElementById("copyFailedAlert").style.display = "none";
-    console.log(copyText);
     copyText.select();
     document.execCommand("copy");
     document.getElementById("copySucessAlert").style.display = "block";
   }
 };
 
-//Reset form
+// ########################  Reset form Function #######################################################
+// When rest form button is clicked - reset all fields to default
 const resetInput = () => {
   $("#landing_url").val(() => {
     return this.defaultValue;
@@ -389,6 +406,8 @@ const resetInput = () => {
     return this.defaultValue;
   });
   document.getElementById("trackingURL").innerHTML = "";
+
+  //Hide all alerts, errors and success messages
   $("#copyFailedAlert").hide();
   $("#copySucessAlert").hide();
   $("#invalid-input").hide();

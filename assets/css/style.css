@@ -1,28 +1,17 @@
+/* Body */
 body {
   font-size: 14px;
   padding: 50px;
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
+/* Heading  */
 h1 {
   font-size: 20px;
   margin-left: 15px;
   font-weight: bold;
 }
 
-#showInstructions_btn {
-  color: blue;
-}
-
-#hideInstructions_btn {
-  color: blue;
-  display: none;
-}
-
-/* Instruction Body */
-#instructions_body {
-  /* display: none; */
-}
 /* Dart arrow before List */
 ul li:before {
   content: "\27A2";
@@ -84,13 +73,15 @@ button,
   display: none;
 }
 
+/* Learn more about the error message */
 #display_learnMore_urlCodeChars {
-  font-size: 12px;
+  font-size: 22px;
   color: blue;
 }
 
+/* Hide details about error message */
 #hide_learnMore_urlCodeChars {
-  font-size: 12px;
+  font-size: 22px;
   color: blue;
   display: none;
 }
@@ -151,12 +142,12 @@ button,
 
 /* ***************  Learn more and hide btns for wrong campaign description *****************/
 #display_learnMore_descriptionChars {
-  font-size: 12px;
+  font-size: 22px;
   color: blue;
 }
 
 #hide_learnMore_descriptionChars {
-  font-size: 12px;
+  font-size: 22px;
   color: blue;
   display: none;
 }
