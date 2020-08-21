@@ -173,10 +173,11 @@ const marketing_tools = [
     stored_value: "SE",
     sources: [
       "|",
-      "GDN|Google Display Network",
+      // "GDN|Google Display Network",
       "DSP|Display",
-      "ORG|Organic Search",
-      "PAID|Paid Search"
+      "Shop | Shopping",
+      "Paid|Paid",
+      "YTB | YouTube"
     ]
   }
 ];
@@ -277,7 +278,7 @@ $(document).ready(() => {
       .trim();
 
     //If user enters hypen at the end of campaign code by mistake take it off
-    if (campaign_id.slice(-1) === "-") {
+    if (campaign_id.slice(-1) === "-" || "_") {
       campaign_id = campaign_id.slice(0, -1);
     }
 
@@ -300,8 +301,8 @@ $(document).ready(() => {
         document.getElementById(
           "campaignCode_invalidCharacters"
         ).style.display = "none";
-        document.getElementById("learnMore_campaignCodeChars").style.display =
-          "none";
+        // document.getElementById("learnMore_campaignCodeChars").style.display =
+        //   "none";
         // If campaign code validation pass - append to trackingURL
         trackingURL += campaign_id;
       }
@@ -332,6 +333,11 @@ $(document).ready(() => {
       .val()
       .trim();
 
+    //remove hypen or uderscore from the description
+    if (description.slice(-1) === "-" || "_") {
+      description = description.slice(0, -1);
+    }
+
     //If user inputs description validate the input
     if (description.length > 0) {
       //If description does not have valid chars - show err and return
@@ -344,8 +350,8 @@ $(document).ready(() => {
       } else {
         document.getElementById("description_invalidCharacters").style.display =
           "none";
-        document.getElementById("learnMore_descriptionChars").style.display =
-          "none";
+        // document.getElementById("learnMore_descriptionChars").style.display =
+        //   "none";
         trackingURL += `-${description}`;
       }
 
@@ -386,6 +392,7 @@ const copyToClipBoard = () => {
     document.getElementById("copySucessAlert").style.display = "block";
   }
 };
+// ##################   End of Copy to clipboard function ########################################################
 
 // ########################  Reset form Function #######################################################
 // When rest form button is clicked - reset all fields to default
@@ -421,6 +428,7 @@ const resetInput = () => {
   $("#display_learnMore_descriptionChars").show();
   $("#url_invalidCharacters").hide();
 };
+// ########################  end of Reset form Function #######################################################
 
 // Display and hide errs for invalid characters input in campaign code input box
 showUrlInvalidCharsDetails = () => {
